@@ -1,0 +1,20 @@
+.login-form-button {
+    width: 100%;
+    background: #C430CF;
+    color: white;
+  }
+  
+  .ant-form-item-explain {
+    margin-bottom: 20px;
+  }
+
+  .login-form-button:hover {
+    background: darkcyan;
+    color: white;
+  }
+
+  .input-login {
+    background: rgb(227, 225, 225);
+  }
+
+  

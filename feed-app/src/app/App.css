@@ -1,4 +1,25 @@
-.App {
+body {
+  /* background-color: #fafafa;
+   */
+   
+
+}
+
+.ant-layout-header {
+  height: 79px;
+  line-height: 77px;
+  background-color: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 0;
+}
+.app-content {
+  /* background-color: #fafafa; */
+  background: url('../images/5183000.jpg');
+  background-size: cover;
+  height: 930px;
+}
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +56,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

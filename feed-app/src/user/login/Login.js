@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "./login.css";
+import { useNavigate } from "react-router-dom";
 import { Row, Col } from "antd";
+import { Link } from "react-router-dom";
+import LoginForm from "../../components/loginForm/LoginForm";
 
 const Login = ({ currentUser, isAuthenticated }) => {
   let navigate = useNavigate();
@@ -18,11 +20,18 @@ const Login = ({ currentUser, isAuthenticated }) => {
         <Row type="flex" justify="center">
           <Col pan={24}>
             <div className="logo-container">
-              <span>Feed App</span>
+              <span id="feed-login">FEED APP</span>
             </div>
           </Col>
-          <Col pan={24}></Col>
         </Row>
+        <Row type="flex" justify="center">
+          <Col pan={24}>
+            <LoginForm />
+          </Col>
+        </Row>
+      </div>
+      <div className="signup-link-container">
+        Don't have an account? <Link to="/signup">Signup</Link>
       </div>
     </React.Fragment>
   );
