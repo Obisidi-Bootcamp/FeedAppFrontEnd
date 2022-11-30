@@ -15,6 +15,7 @@ const Login = ({ currentUser, isAuthenticated }) => {
   }, []);
 
   return (
+    
     <React.Fragment>
       <div className="login-container">
         <Row type="flex" justify="center">
@@ -34,6 +35,7 @@ const Login = ({ currentUser, isAuthenticated }) => {
         Don't have an account? <Link to="/signup">Signup</Link>
       </div>
     </React.Fragment>
+   
   );
 };
 
