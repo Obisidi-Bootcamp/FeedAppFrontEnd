@@ -6,21 +6,26 @@ import { Layout } from "antd";
 import { Carousel } from "antd";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
-import { Link } from "react-router-dom";
-// import { Container } from "react-bootstrap";
-import Navbar from "../navbar/Navbar";
+// import Navbar from "../navbar/Navbar";
+// import { Header } from "antd/es/layout/layout";
+import Header from "../components/header/Header";
+import Profile from "../user/profile/Profile";
+import MyFeeds from "../user/myFeeds/MyFeeds";
+import Home from "../user/home/Home";
 
 const { Content } = Layout;
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <>
       <Layout className="layout">
+        {/* <Header /> */}
         <Content className="app-content">
-          <Navbar />
+          {/* <Navbar /> */}
+
           <div className="container">
             <Routes>
               <Route
@@ -42,6 +47,32 @@ const App = () => {
                   />
                 }
               />
+              <Route
+                exact
+                path="/profile"
+                element={
+                  <Header>
+                    <Profile currentUser={currentUser} />
+                  </Header>
+                }
+              />
+              <Route
+                path="/myFeeds"
+                element={
+                  <Header>
+                    <MyFeeds currentUser={currentUser} />
+                  </Header>
+                }
+              />
+              <Route
+                 exact
+                path="/"
+                element={
+                  <Header>
+                    <Home currentUser={currentUser} />
+                  </Header>
+                }
+              />
             </Routes>
           </div>
           <div>
@@ -54,7 +85,7 @@ const App = () => {
                   marginTop: 64,
                 }}
               >
-                <Carousel autoplay>
+                {/* <Carousel autoplay>
                   <img
                     src="https://media.istockphoto.com/id/513550806/photo/teenager-hipster-friends-partying-by-blowing-colorful-confetti-from-hands.jpg?s=612x612&w=0&k=20&c=BG0BHvW98AiLFyhiNy3NzlPZlGTUwHS-I8iYVvWmR78="
                     alt="placeholder"
@@ -80,7 +111,7 @@ const App = () => {
                     src="https://media.istockphoto.com/id/1225782571/photo/happy-millennial-hispanic-teen-girl-checking-social-media-holding-smartphone-at-home-smiling.jpg?s=612x612&w=0&k=20&c=FvE-meOQyH2KrK0_M2FTi_OGbEGRvCqPAQRSke64_28="
                     alt="placeholder"
                   />
-                </Carousel>
+                </Carousel> */}
               </div>
             </div>
           </div>
