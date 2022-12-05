@@ -7,7 +7,7 @@ import dummyPost from "../../dummyPost.json";
 import LoadingIndicator from "../../components/loadingIndicator/LoadingIndicator";
 
 const Home = ({ currentUser }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getPosts();

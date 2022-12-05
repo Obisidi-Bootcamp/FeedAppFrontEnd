@@ -8,7 +8,7 @@ import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
 import FormField from "../formField/FormField";
 
 const BasicProfile = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

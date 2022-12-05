@@ -1,52 +1,57 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect, useContext } from "react";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { Layout } from "antd";
-import { Carousel } from "antd";
+import Header from "../components/header/Header.js";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
-// import Navbar from "../navbar/Navbar";
-// import { Header } from "antd/es/layout/layout";
-import Header from "../components/header/Header";
 import Profile from "../user/profile/Profile";
-import MyFeeds from "../user/myFeeds/MyFeeds";
 import Home from "../user/home/Home";
+import MyFeeds from "../user/myFeeds/MyFeeds";
+import LoadingIndicator from "../components/loadingIndicator/LoadingIndicator";
+import { AppContext } from "../context/applicationContext";
 
 const { Content } = Layout;
 
 const App = () => {
+  const appContext = useContext(AppContext);
+  const userData = appContext.getSession();
+
   const [currentUser, setCurrentUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-  return (
-    <>
+  useEffect(() => {
+    if (userData) {
+      setCurrentUser(userData);
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [userData]);
+
+  if (isAuthenticated === null) return <LoadingIndicator fullPage />;
+
+  if (isAuthenticated === false) {
+    return (
       <Layout className="layout">
-        {/* <Header /> */}
         <Content className="app-content">
-          {/* <Navbar /> */}
-
           <div className="container">
             <Routes>
-              <Route
-                path="/login"
-                element={
-                  <Login
-                    currentUser={currentUser}
-                    isAuthenticated={isAuthenticated}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/signup"
-                element={
-                  <Signup
-                    currentUser={currentUser}
-                    isAuthenticated={isAuthenticated}
-                  />
-                }
-              />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/signup" element={<Signup />} />
+            </Routes>
+          </div>
+        </Content>
+      </Layout>
+    );
+  } else {
+    return (
+      <Layout className="layout">
+        <Content className="app-content">
+          <div className="container">
+            <Routes>
+              <Route path="*" element={<Navigate to="/" replace />} />
               <Route
                 exact
                 path="/profile"
@@ -56,16 +61,9 @@ const App = () => {
                   </Header>
                 }
               />
+
               <Route
-                path="/myFeeds"
-                element={
-                  <Header>
-                    <MyFeeds currentUser={currentUser} />
-                  </Header>
-                }
-              />
-              <Route
-                 exact
+                exact
                 path="/"
                 element={
                   <Header>
@@ -73,64 +71,22 @@ const App = () => {
                   </Header>
                 }
               />
-            </Routes>
-          </div>
-          <div>
-            <div className="slides">
-              <div
-                style={{
-                  maxWidth: 1000,
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  marginTop: 64,
-                }}
-              >
-                {/* <Carousel autoplay>
-                  <img
-                    src="https://media.istockphoto.com/id/513550806/photo/teenager-hipster-friends-partying-by-blowing-colorful-confetti-from-hands.jpg?s=612x612&w=0&k=20&c=BG0BHvW98AiLFyhiNy3NzlPZlGTUwHS-I8iYVvWmR78="
-                    alt="placeholder"
-                  />
 
-                  <img
-                    src="https://cdn.pixabay.com/photo/2017/07/31/11/21/people-2557396_960_720.jpg"
-                    alt="placeholder"
-                  />
-                  <img
-                    src="https://media.istockphoto.com/id/1213252024/photo/portrait-of-attractive-young-african-american-girl-using-mobile-phone.jpg?s=612x612&w=0&k=20&c=L0utFD9flbUa8uLgigMLWIxloWESZnsAbV8K4KYgJho="
-                    alt="placeholder"
-                  />
-                  <img
-                    src="https://media.istockphoto.com/id/1092715214/photo/two-glad-positive-grinning-lady-stand-in-glasses-spectacles-street-style-stylish-trendy-cool.jpg?s=612x612&w=0&k=20&c=ypVq4SYum8SDK8S8or7jq6svxaKMSW4eSh4l1dlnmSU="
-                    alt="placeholder"
-                  />
-                  <img
-                    src="https://media.istockphoto.com/id/1326076407/photo/family-walking-along-track-in-autumn-countryside-with-children-running-ahead.jpg?s=612x612&w=0&k=20&c=lF1RrVGUa13ujRQVAt-RMFHrXyiAvh9SIG2yE1FMQfA="
-                    alt="placeholder"
-                  />
-                  <img
-                    src="https://media.istockphoto.com/id/1225782571/photo/happy-millennial-hispanic-teen-girl-checking-social-media-holding-smartphone-at-home-smiling.jpg?s=612x612&w=0&k=20&c=FvE-meOQyH2KrK0_M2FTi_OGbEGRvCqPAQRSke64_28="
-                    alt="placeholder"
-                  />
-                </Carousel> */}
-              </div>
-            </div>
-          </div>
-          <div>
-            {/* <nav>
-              <ul>
-                <li>
-                  <Link to="/signup">Signup</Link>
-                </li>
-                <li>
-                  <Link to="/signup">Signup</Link>
-                </li>
-              </ul>
-            </nav> */}
+              <Route
+                exact
+                path="/myFeeds"
+                element={
+                  <Header>
+                    <MyFeeds currentUser={currentUser} />
+                  </Header>
+                }
+              />
+            </Routes>
           </div>
         </Content>
       </Layout>
-    </>
-  );
+    );
+  }
 };
 
 export default App;
