@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./loginform.css";
 import { loginApi } from "../../util/ApiUtil";
+import { signInWithGoogle } from "../../firebase/firebase";
 import { AppContext } from "../../context/applicationContext";
 
 const FormItem = Form.Item;
@@ -27,6 +28,11 @@ const LoginForm = () => {
       toast("Invalid username or password.");
     }
   };
+
+  // const signIn = () => {
+  //   auth.signInWithPopup(provider).catch((error) => alert(error.message));
+  // };
+
 
   return (
     <Form onFinish={onFinish} className="login-form">
@@ -71,6 +77,17 @@ const LoginForm = () => {
           className="login-form-button bg-indigo-600"
         >
           Login
+        </Button>
+      </FormItem>
+      <FormItem>
+        <Button
+          type="primary"
+          htmlType="submit"
+          size="large"
+          className="login-form-button bg-indigo-600"
+          onClick={signInWithGoogle}
+        >
+          Login Google Auth
         </Button>
       </FormItem>
     </Form>

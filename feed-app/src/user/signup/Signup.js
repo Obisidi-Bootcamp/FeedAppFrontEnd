@@ -14,6 +14,10 @@ import {
 } from "../../common/constants";
 
 import { signUpApi } from "../../util/ApiUtil";
+// import { auth, provider, signInGoogle } from "../../firebase/firebase";
+import { signInWithGoogle } from "../../firebase/firebase";
+import { auth } from "../../firebase/firebase";
+
 
 const FormItem = Form.Item;
 
@@ -102,7 +106,7 @@ const validatePassword = (password) => {
   if (!password) {
     return {
       validateStatus: "warning",
-      errorMsg: `Please input a poassword`,
+      errorMsg: `Please input a password`,
     };
   }
   if (password.length < PASSWORD_MIN_LENGTH) {
@@ -139,7 +143,8 @@ const Signup = () => {
       "1", // (phoneNumber)this is because we dont have an input value in the signup form page
       password.value
     );
-
+    console.log(apiResponse);
+    // console.log(signInWithGoogle);
     if (apiResponse) {
       navigate("/login");
       toast("Signup successful. Please login to continue.");
@@ -147,6 +152,13 @@ const Signup = () => {
       toast("Invalid sign up request. Username or email already exists.");
     }
   };
+
+  // const signIn = () => {
+  //   auth.signInWithPopup(provider).catch((error) => alert(error.message));
+
+  //   console.log("auth", auth);
+  //   console.log("provider", provider);
+  // };
 
   const handleInputChange = (event, validationFun) => {
     const target = event.target;
@@ -197,7 +209,8 @@ const Signup = () => {
         </Row>
         <Row type="flex" justify="center">
           <Col pan={24}>
-            <Form onFinish={onFinish} className="signup-form">
+            {/* <Form onFinish={onFinish} className="signup-form"> */}
+            <Form className="signup-form">
               <FormItem
                 validateStatus={name.validateStatus}
                 help={name.errorMsg}
@@ -259,17 +272,32 @@ const Signup = () => {
                   }
                 />
               </FormItem>
+              
               <FormItem>
                 <Button
                   type="primary"
                   htmlType="submit"
                   size="large"
                   className="signup-form-button bg-indigo-600"
+                  onClick={onFinish}
                   disabled={isFormInvalid()}
                 >
                   Signup
                 </Button>
               </FormItem>
+
+              <FormItem>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  className="signup-form-button bg-indigo-600"
+                  onClick={signInWithGoogle}
+                >
+                  SignUp Using Google
+                </Button>
+              </FormItem>
+
             </Form>
           </Col>
         </Row>
