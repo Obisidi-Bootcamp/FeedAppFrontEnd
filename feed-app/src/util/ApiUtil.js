@@ -120,3 +120,21 @@ export const addFeedApi = async (token, username, post, imageUrl) => {
     return response;
   }
 };
+
+
+export const getMyFeedsApi = async (token, username) => {
+  let response = undefined;
+  try {
+    const url = `${API_BASE_URL}/Posts/username/${username}`;
+    const apiResponse = await axios.get(url, {
+      headers: { Authorization: frameToken(token) },
+    });
+    if (apiResponse.status === 200) {
+      response = apiResponse.data;
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
