@@ -1,17 +1,35 @@
 import React, { useState } from "react";
 import "./addpost.css";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 import { Formik, Form, useField } from "formik";
 
 import FormField from "../formField/FormField";
 
-const AddPost = () => {
+import { addFeedApi } from "../../util/ApiUtil";
+
+const AddPost = ({ currentUser }) => {
   const [isFetching, setIsFetching] = useState(false);
 
-  const onFormSubmit = (values) => {
-    //add post api code goes here
-    console.log(values);
+  const onFormSubmit = async (values, { resetForm }) => {
+      //This is to avoid multiple requests.
+    if (!isFetching) {
+      setIsFetching(true);
+      const apiResponse = await addFeedApi(
+        currentUser.token,
+        currentUser.username,
+        values.post,
+        values.postImageUrl
+      );
+      if (apiResponse) {
+        toast("Feed has been added.");
+        resetForm();
+      } else {
+        toast("Failed to add a new feed. Please try again later.");
+      }
+      setIsFetching(false);
+    }
   };
 
   const AddPostSchema = Yup.object().shape({
@@ -59,7 +77,7 @@ const AddPost = () => {
         {() => (
           <Form>
             <div className="w-full mt-10  px-20">
-              <div class="mx-5 rounded-xl border-1  bg-white shadow-2xl">
+              <div className="mx-5 rounded-xl border-1  bg-white shadow-2xl">
                 <div className="flex flex-col items-center  rounded-lg p-10">
                   <FormField
                     label=""
