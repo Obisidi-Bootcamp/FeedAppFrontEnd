@@ -9,7 +9,7 @@ const AppContextProvider = ({ children }) => {
   const setSession = (userData) => {
     setCookie("userData", userData, {
       path: "/",
-      maxAge: 300, //5minutes
+      maxAge: 600, //10minutes
     });
   };
 

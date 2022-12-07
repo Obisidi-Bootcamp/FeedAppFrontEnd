@@ -138,3 +138,68 @@ export const getMyFeedsApi = async (token, username) => {
     return response;
   }
 };
+
+export const getBasicProfileApi = async (token, username) => {
+  let response = undefined;
+  try {
+    const url = `${API_BASE_URL}/user/basicprofile/${username}`;
+    const apiResponse = await axios.get(
+      url,
+
+      {
+        headers: { Authorization: frameToken(token) },
+      }
+    );
+    if (apiResponse.status === 200) {
+      response = apiResponse.data;
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
+
+export const updateBasicProfileApi = async (
+  token,
+  position,
+  company,
+  username,
+  skills,
+  certification,
+  companyAddress,
+  interests,
+  experience,
+  education,
+  languages
+) => {
+  let response = undefined;
+  try {
+    const url = `${API_BASE_URL}/user/personal/profile`;
+    const apiResponse = await axios.put(
+      url,
+      {
+        position,
+        company,
+        username,
+        skills,
+        certification,
+        companyAddress,
+        interests,
+        experience,
+        education,
+        languages,
+      },
+      {
+        headers: { Authorization: frameToken(token) },
+      }
+    );
+    if (apiResponse.status === 200) {
+      response = apiResponse.data;
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    return response;
+  }
+};

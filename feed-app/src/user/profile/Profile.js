@@ -37,9 +37,9 @@ const Profile = ({ currentUser }) => {
         </button>
       </nav>
 
-      {tab === 1 && <BasicProfile />}
-      {tab === 2 && <AddressProfile />}
-      {tab === 3 && <SecurityProfile />}
+      {tab === 1 && <BasicProfile currentUser={currentUser} />}
+      {tab === 2 && <AddressProfile currentUser={currentUser} />}
+      {tab === 3 && <SecurityProfile currentUser={currentUser} />}
     </div>
   );
 };
