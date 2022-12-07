@@ -81,3 +81,21 @@ export const signUpApi = async (
     return response;
   }
 };
+
+export const getFeedsApi = async (token, excludeUsername) => {
+  let response = undefined;
+  try {
+    const url = `${API_BASE_URL}/Posts`;
+    const apiResponse = await axios.get(url, {
+      headers: { Authorization: frameToken(token) },
+      params: { excludeUsername },
+    });
+    if (apiResponse.status === 200) {
+      response = apiResponse.data;
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
