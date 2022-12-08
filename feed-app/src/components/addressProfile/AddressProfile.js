@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./addressprofile.css";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 import { Formik, Form } from "formik";
 
 import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
 import FormField from "../formField/FormField";
 
-const AddressProfile = () => {
+import { getAddressApi, updateAddressApi } from "../../util/ApiUtil";
+
+const AddressProfile = ({ currentUser }) => {
+  const [isSubmit, setIsSubmit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const [address, setAddress] = useState("");
@@ -20,13 +24,42 @@ const AddressProfile = () => {
     loadAddressProfile();
   }, []);
 
-  const loadAddressProfile = () => {
-    //load address api code goes here
+  const loadAddressProfile = async () => {
+    const apiResponse = await getAddressApi(
+      currentUser.token,
+      currentUser.username
+    );
+    if (apiResponse && apiResponse.length > 0) {
+      const addressDetails = apiResponse[0];
+      setAddress(addressDetails.id.address);
+      setPinCode(addressDetails.id.pincode);
+      setCity(addressDetails.city);
+      setState(addressDetails.state);
+      setCountry(addressDetails.country);
+    }
+    setIsLoading(false);
   };
 
-  const onFormSubmit = (values) => {
-    //save address api code goes here
-    console.log(values);
+  const onFormSubmit = async (values) => {
+    if (!isSubmit) {
+      setIsSubmit(true);
+
+      const apiResponse = await updateAddressApi(
+        currentUser.token,
+        currentUser.username,
+        values.city,
+        values.state,
+        values.country,
+        values.address,
+        values.pinCode
+      );
+      if (apiResponse) {
+        toast("Profile has been updated.");
+      } else {
+        toast("Failed to update your profile. Please try again later.");
+      }
+      setIsSubmit(false);
+    }
   };
 
   if (isLoading) {

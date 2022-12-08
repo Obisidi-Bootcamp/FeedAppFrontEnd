@@ -203,3 +203,102 @@ export const updateBasicProfileApi = async (
     return response;
   }
 };
+
+export const getAddressApi = async (token, username) => {
+  let response = undefined;
+  try {
+    const url = `${API_BASE_URL}/user/address/${username}`;
+    const apiResponse = await axios.get(
+      url,
+
+      {
+        headers: { Authorization: frameToken(token) },
+      }
+    );
+    if (apiResponse.status === 200) {
+      response = apiResponse.data;
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
+
+export const updateAddressApi = async (
+  token,
+  username,
+  city,
+  state,
+  country,
+  address,
+  pincode
+) => {
+  let response = undefined;
+  try {
+    const url = `${API_BASE_URL}/user/personal/address`;
+    const apiResponse = await axios.put(
+      url,
+      {
+        username,
+        city,
+        state,
+        country,
+        address,
+        pincode,
+      },
+      {
+        headers: { Authorization: frameToken(token) },
+      }
+    );
+    if (apiResponse.status === 200) {
+      response = apiResponse.data;
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
+
+export const updateSecurityApi = async (
+  token,
+  id,
+  securityQuestion1,
+  securityAnswer1,
+  securityQuestion2,
+  securityAnswer2,
+  securityQuestion3,
+  securityAnswer3,
+  phoneNumber,
+  userPassword
+) => {
+  let response = undefined;
+  try {
+    const url = `${API_BASE_URL}/user/personal/security`;
+    const apiResponse = await axios.put(
+      url,
+      {
+        id,
+        securityQuestion1,
+        securityAnswer1,
+        securityQuestion2,
+        securityAnswer2,
+        securityQuestion3,
+        securityAnswer3,
+        phoneNumber,
+        userPassword,
+      },
+      {
+        headers: { Authorization: frameToken(token) },
+      }
+    );
+    if (apiResponse.status === 200) {
+      response = apiResponse.data;
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    return response;
+  }
+};

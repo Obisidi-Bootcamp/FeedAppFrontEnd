@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./securityprofile.css";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 import { Formik, Form } from "formik";
 
-import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
 import FormField from "../formField/FormField";
 
-const SecurityProfile = () => {
-  const [isLoading, setIsLoading] = useState(true);
+import { updateSecurityApi } from "../../util/ApiUtil";
+
+const SecurityProfile = ({ currentUser }) => {
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -19,22 +21,30 @@ const SecurityProfile = () => {
   const [securityQuestion3, setSecurityQuestion3] = useState("");
   const [securityAnswer3, setSecurityAnswer3] = useState("");
 
-  useEffect(() => {
-    loadSecurityProfile();
-  }, []);
+  const onFormSubmit = async (values) => {
+    if (!isSubmit) {
+      setIsSubmit(true);
 
-  const loadSecurityProfile = () => {
-    //load security api code goes here
+      const apiResponse = await updateSecurityApi(
+        currentUser.token,
+        currentUser.username,
+        values.securityQuestion1,
+        values.securityAnswer1,
+        values.securityQuestion2,
+        values.securityAnswer2,
+        values.securityQuestion3,
+        values.securityAnswer3,
+        values.phoneNumber,
+        values.password
+      );
+      if (apiResponse) {
+        toast("Profile has been updated.");
+      } else {
+        toast("Failed to update your profile. Please try again later.");
+      }
+      setIsSubmit(false);
+    }
   };
-
-  const onFormSubmit = (values) => {
-    //save security api code goes here
-    console.log(values);
-  };
-
-  if (isLoading) {
-    return <LoadingIndicator fullPage />;
-  }
 
   const SecurityProfileSchema = Yup.object().shape({
     password: Yup.string()
